@@ -18,7 +18,6 @@ def append_to_file(List, filename):
         f_object.close()
 
 
-
 def get_random_file(directory_path):
     if not os.path.exists(directory_path):
         raise FileNotFoundError(f"Directory '{directory_path}' not found.")
@@ -32,3 +31,13 @@ def get_random_file(directory_path):
     
     random_file = random.choice(files)
     return os.path.join(directory_path, random_file)
+
+def get_file_list(directory_path):
+    if not os.path.exists(directory_path):
+        raise FileNotFoundError(f"Directory '{directory_path}' not found.")
+    
+    if not os.path.isdir(directory_path):
+        raise ValueError(f"'{directory_path}' is not a valid directory path.")
+    
+    file_list = [file for file in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, file))]
+    return file_list
