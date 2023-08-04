@@ -117,6 +117,8 @@ def save_csv_file(data, filename):
     csv_writer.writerows(data)
 
 def extract_videos_audios(folder_name,source_path,video,duration=30,step=25,starting_time=0):
+    if not os.path.exists(folder_name):
+        os.mkdir(folder_name)
     extracted_folder_path = folder_name+"extracted/"
     audio_folder_path = folder_name+"audios/"
     if not os.path.exists(extracted_folder_path):
@@ -143,14 +145,14 @@ def extract_videos_audios(folder_name,source_path,video,duration=30,step=25,star
             video1.audio.write_audiofile(audio_filename1)    
 
 
-def transcribe_all_sentences(folder_name):
+def transcribe_all_sentences(model,folder_name):
     # Transcribe the audios
     audio_folder_path = folder_name+"audios/"
     file_list = list_files_in_folder(audio_folder_path)
 
     list_all_sentences = dict()
     for inx , audioFile in enumerate(file_list):
-        _ ,_ , sentence_timestamps =transcribe_test(audioFile,"de")
+        _ ,_ , sentence_timestamps =transcribe_test(model,audioFile,"de")
         print(sentence_timestamps)
         sentences = dict()
         if inx == 0:  # Ignore the last only
